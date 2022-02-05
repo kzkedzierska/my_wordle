@@ -1,0 +1,25 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+`%not in%` <- Negate(`%in%`)
+library(tidyverse)
+```
+
+```{r}
+nletters <- nletters
+words_for_wordle_df <-
+  words::words %>%
+  as_tibble() %>%
+  filter(word_length == nletters) %>%
+  mutate(uniq_characters = str_split(word, ""),
+         uniq_characters = map_int(uniq_characters, function(x) length(unique(x))),
+         starters = word_length == uniq_characters) 
+```
+
+```{r}
+
+```
+
