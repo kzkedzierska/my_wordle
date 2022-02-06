@@ -1,6 +1,6 @@
 Package: wordle
 Title: Replica of famous wordle game (and simulate solving it).
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person("Kasia", "Kedzierska", , "kzkedzierska@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
@@ -12,12 +12,14 @@ Depends:
 Imports: 
     dplyr,
     ggplot2,
+    shiny,
     logger,
     stringr,
     tibble,
-    tidyr
-Suggests: 
-    gganimate
+    tidyr,
+    gganimate,
+    bslib,
+    thematic
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

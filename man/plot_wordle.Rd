@@ -4,7 +4,7 @@
 \alias{plot_wordle}
 \title{Plot wordle guesses}
 \usage{
-plot_wordle(df, n_tries = 6)
+plot_wordle(df, n_tries = 6, n_letters = NULL)
 }
 \arguments{
 \item{df}{tibble with wordle results, must contain x & y numeric columns,

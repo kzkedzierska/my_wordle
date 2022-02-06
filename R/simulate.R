@@ -15,7 +15,7 @@
 #' @examples
 #' simulate(words_for_wordle_df, 3)
 simulate <- function(words_for_wordle_df, n_letters = 5, n_guesses = 6) {
-
+  log_threshold(DEBUG)
   # select a word
   correct <-
     words_for_wordle_df %>%
