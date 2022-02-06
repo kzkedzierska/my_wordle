@@ -1,0 +1,23 @@
+Package: wordle
+Title: Replica of famous wordle game (and simulate solving it).
+Version: 0.0.1
+Authors@R: 
+    person("Kasia", "Kedzierska", , "kzkedzierska@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: R implementation of the famous wordle game including solver, 
+    and toolsto create simulations.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Depends: 
+    R (>= 4.0)
+LazyData: true
+Imports: 
+    stringr,
+    dplyr,
+    ggplot2,
+    logger,
+    tibble
+Suggests: 
+    gganimate
