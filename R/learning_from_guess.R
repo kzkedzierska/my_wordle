@@ -11,6 +11,7 @@
 #' @return Named list with updated \code{allowed} and \code{scan_for} objects.
 #' @export
 #'
+#'
 #' @examples
 #' test_vec <- test_guess("aloft", "float")
 #' # this is first guess, hence no prior knowledge

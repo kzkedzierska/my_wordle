@@ -12,6 +12,10 @@
 #'   string with current guess.
 #' @export
 #'
+#' @import dplyr
+#' @import logger
+#' @importFrom stringr str_detect
+#'
 #' @examples
 #'
 #' words_df <- words_for_wordle_df %>% filter(word %in% c("cat", "man", "can"))
@@ -38,7 +42,7 @@ guess_word <- function(words_df,
   guess <-
     words_df %>%
     # prioritize as many unique characters
-    top_n(n = 1, uniq_characters) %>%
+    slice_max(n = 1, order_by = uniq_characters) %>%
     # take just one
     slice_sample(n = 1) %>%
     pull(word)

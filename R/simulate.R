@@ -7,6 +7,11 @@
 #' @return tibble with results of the simulation
 #' @export
 #'
+#' @import dplyr
+#' @import logger
+#' @importFrom tibble tibble
+#'
+#'
 #' @examples
 #' simulate(words_for_wordle_df, 3)
 simulate <- function(words_for_wordle_df, n_letters = 5, n_guesses = 6) {

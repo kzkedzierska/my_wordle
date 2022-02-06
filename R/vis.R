@@ -8,6 +8,8 @@
 #'
 #' @return ggplot2 plot with visualized guesses
 #' @export
+#' @import ggplot2
+#' @importFrom  tibble tibble
 #'
 #' @examples
 #'
@@ -83,6 +85,9 @@ plot_wordle <- function(df, n_tries = 6) {
 #' @return
 #' @export
 #'
+#' @import dplyr
+#' @importFrom tidyr uncount
+#'
 #' @examples
 #' first_try_df <-
 #'   tibble(x = rep(1:3),
@@ -129,7 +134,7 @@ animate_wordle <- function(df, n_tries = 6) {
 
   animation_plt <-
     plot_wordle(df, n_tries = n_tries) +
-    transition_manual(transition, cumulative = TRUE)
+    gganimate::transition_manual(transition, cumulative = TRUE)
 
-  animate(animation_plt, end_pause = 5, duration = 2*max(df$attempt))
+  gganimate::animate(animation_plt, end_pause = 5, duration = 2*max(df$attempt))
 }

@@ -3,6 +3,10 @@
 #' @param guess string Guess for wordle
 #' @param correct string Correct answer
 #' @return The logical vector corresponding to position-wise exact matches between the guess and correct answer. The vector is named with respective letters of a guess, and keeps the order of the characters in the string.
+#' @export
+#'
+#' @importFrom stringr str_split
+#'
 #' @examples
 #' check_for_exact("stop", "start")
 #' check_for_exact("aloft", "float")
@@ -36,6 +40,10 @@ check_for_exact <- function(guess, correct) {
 #' @param guess A string.
 #' @param correct A string.
 #' @return The character vector corresponding to position-wise feedback. "no" means the letter is not found in the word, "almost" suggest a different position and "exact" confirms that a letter is in it's right position. The vector is named with respective letters of a guess, and keeps the order of the characters in the string.
+#' @export
+#'
+#' @importFrom stringr str_split
+#'
 #' @examples
 #' test_guess("stops", "start")
 #' test_guess("aloft", "float")
