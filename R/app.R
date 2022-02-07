@@ -49,8 +49,9 @@ run_wordle <- function() {
 
   # Define server function
   server <- function(input, output, session) {
-
-    words_df <- words_for_wordle_df
+    # TODO: figure out if that's proper way to refer to a dataset
+    # such that wordle::run_wordle() works!
+    words_df <- wordle::words_for_wordle_df
 
     values <- reactiveValues()
 
