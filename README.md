@@ -12,7 +12,7 @@ because I wanted to play around with data exploration. Also, I was
 interesting how good can a simple regexp solver be, and if how, I humble
 human, fare in comparison with the machine.
 
-## Credits
+## Dictionaries
 
 As a source of words for my wordle I use the `words::words` data frame.
 `words` is the package with list of English Words from the Scrabble
@@ -24,5 +24,9 @@ Dictionary. You can find more details here:
 You can install the package from github.
 
 ``` r
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+
 devtools::install_github("kzkedzierska/my_wordle")
 ```
