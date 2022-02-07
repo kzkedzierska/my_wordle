@@ -1,25 +1,26 @@
 Package: wordle
-Title: Replica of famous wordle game (and simulate solving it).
+Title: R implementation of famous wordle game with automatic solver.
 Version: 0.0.2
 Authors@R: 
     person("Kasia", "Kedzierska", , "kzkedzierska@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: R implementation of the famous wordle game including solver,
-    and toolsto create simulations.
+Description: R Shiny implementation of the famous wordle game including solver,
+    and tools to create simulations.
 License: MIT + file LICENSE
 Depends: 
     R (>= 4.0)
 Imports: 
+    bslib,
     dplyr,
     ggplot2,
-    shiny,
     logger,
+    shiny,
     stringr,
+    thematic,
     tibble,
-    tidyr,
-    gganimate,
-    bslib,
-    thematic
+    tidyr
+Suggests: 
+    gganimate
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

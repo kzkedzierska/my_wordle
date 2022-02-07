@@ -4,15 +4,15 @@
 \alias{plot_wordle}
 \title{Plot wordle guesses}
 \usage{
-plot_wordle(df, n_tries = 6, n_letters = NULL)
+plot_wordle(df = NULL, n_tries = 6, n_letters = NULL)
 }
 \arguments{
 \item{df}{tibble with wordle results, must contain x & y numeric columns,
 and result, letters and attempt character columns. For details see example.}
 
-\item{facet}{logical, default: \code{FALSE};
-if multiple attempts provided in the df, allows to plot them in panels;
-do not use when animating.}
+\item{n_tries}{numeric, number of allowed guesses}
+
+\item{n_letters}{numeric, number of letters}
 }
 \value{
 ggplot2 plot with visualized guesses

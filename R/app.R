@@ -1,153 +1,8 @@
-#' Check guess
-#'
-#' @param word string
-#' @param words_df tibble with words for wordle, must have word character column
-#'
-#' @return logical if word is among the words
-#'
-#' @examples
-#' check_guess("start") # TRUE
-#' check_guess("yolo") # FALSE
-#'
-check_guess <- function(word, words_df = words_for_wordle_df) {
-  word %in% words_df$word
-}
-
-#' Praise successful solution
-#'
-#' @param i integer, successful try
-#'
-#' @return string praise for successfully solving wordle
-#'
-#' @examples
-#' praise_success(2)
-praise_success <- function(i) {
-
-  stopifnot(is.numeric(i))
-
-  praises <-
-    list(c("Yowza!", "Legendary!"),
-         c("Fantastic!", "Epic!"),
-         c("Splendid!", "Ace!", "Awesome!"),
-         c("Well done!", "Solid!"),
-         c("Good job!", "Neatly done"),
-         c("Good!", "Success!"))
-
-  i <- min(i, length(praises))
-
-  print(sample(praises[[i]], 1))
-
-}
-
-run_wordle_guess <- function(testing_vec = NULL,
-                             i = 1,
-                             guesses_df = tibble(),
-                             n_letters = NULL,
-                             n_tries = NULL) {
-
-
-  if (!is.null(testing_vec)) {
-    n_letters <- length(testing_vec)
-
-    try_df <-
-      tibble(x = 1:n_letters,
-             attempt = i,
-             letters = names(testing_vec),
-             result = testing_vec) %>%
-      mutate(letters = toupper(letters))
-
-    guesses_df <-
-      bind_rows(guesses_df, try_df)
-
-    plt <-
-      guesses_df %>%
-      group_by(attempt) %>%
-      mutate(transition = ifelse(attempt == i, 1:n(), 0)) %>%
-      plot_wordle()
-
-  } else {
-    stopifnot(is.numeric(n_letters),
-              is.numeric(n_tries))
-
-    plt <- plot_wordle(n_letters = n_letters,
-                       n_tries = n_tries)
-
-  }
-
-
-
-  if (!requireNamespace("gganimate", quietly = TRUE)) {
-
-    log_warn("No `gganimate` package, cannot produce annimation.")
-
-    anim_plt <- NULL
-
-  } else {
-    if (!is.null(testing_vec)) {
-      anim_plt <- plt +
-        gganimate::transition_manual(transition, cumulative = TRUE)
-    } else {
-
-      anim_plt <- plt + gganimate::transition_null()
-    }
-
-
-  }
-  list(guesses_df = guesses_df,
-       static_plot = plt,
-       animation = anim_plt)
-}
-
-plot_keybord <- function(used_letters) {
-
-  stopifnot(toupper(used_letters) %in% LETTERS)
-
-  used_letters <- toupper(used_letters)
-
-  row_one <- strsplit("qwertyuiop", "") %>% unlist()
-  row_two <- strsplit("asdfghjkl", "") %>% unlist()
-  row_three <- strsplit("zxcvbnm", "") %>% unlist()
-
-  keybord_outline_df <-
-    tibble(letter = c(row_one, row_two, row_three),
-           row_n = c(rep(1, length(row_one)),
-                     rep(2, length(row_two)),
-                     rep(3, length(row_three)))) %>%
-    group_by(row_n) %>%
-    mutate(order = 1:n(),
-           letter = toupper(letter))
-
-  avail_letters_df <-
-    tibble(letter = LETTERS) %>%
-    full_join(keybord_outline_df) %>%
-    mutate(used = letter %in% used_letters)
-
-  avail_letters_df %>%
-    group_by(row_n) %>%
-    mutate(order2 = (10 - max(order))/2 + order) %>%
-    ggplot(aes(order2,
-               row_n)) +
-    geom_tile(aes(fill = used),
-              width = 0.9,
-              height = 0.9) +
-    geom_text(aes(label = letter),
-              color = "white", size = 7,
-              family = "URWHelvetica", fontface = "bold") +
-    scale_fill_manual(values = c("darkgreen", "grey60")) +
-    theme_void() +
-    theme(strip.text = element_blank(), legend.position = "none",
-          panel.background = element_rect(fill = "transparent"),
-          plot.background = element_rect(fill = "transparent")) +
-    coord_equal() +
-    scale_y_reverse()
-}
-
 #' Run wordle Shiny App
 #'
 #' @return Shiny App Wordle implementation
 #' @export
 #' @import shiny
-#' @import gganimate
 #'
 #' @examples
 #' # run shiny app
@@ -162,26 +17,35 @@ run_wordle <- function() {
                          fixedRow(
                            column(3,
                                   fixedRow(wellPanel(
-                                    checkboxInput("dark_mode", "Dark mode", value = FALSE),
-                                    selectInput("n_letters", "Word size", choices = 2:6,
+                                    checkboxInput("dark_mode", "Dark mode",
+                                                  value = FALSE),
+                                    selectInput("n_letters", "Word size",
+                                                choices = 2:6,
                                                 multiple = FALSE, selected = 5),
-                                    numericInput("n_tries", "Number of guessess",
+                                    numericInput("n_tries", "Number of guesses",
                                                  min = 3, max = 10,
                                                  value = 6, step = 1),
                                     actionButton("new_game", "New game",
                                                  icon = icon("sync"))
                                   ))),
                            column(6, offset = 2,
-                                  fixedRow(plotOutput("wordle_outcome", width = 400)),
-                                  fixedRow(plotOutput("letters", width = 400, height = 200)),
-                                  fixedRow(column(width = 3, h3("Your guess: ")),
-                                           column(width = 4, textInput("guess", "",
-                                                                       value = "")),
-                                           column(width = 2, actionButton("submit", "",
-                                                                          icon = icon("play"))))
-                           )))
-
-                   )
+                                  fixedRow(plotOutput("wordle_outcome",
+                                                      width = 400)),
+                                  fixedRow(plotOutput("letters",
+                                                      width = 400,
+                                                      height = 200)),
+                                  fixedRow(column(width = 3,
+                                                  h3("Your guess: ")),
+                                           column(width = 4,
+                                                  textInput("guess", "",
+                                                            value = "")),
+                                           column(width = 2,
+                                                  actionButton("submit", "",
+                                                               icon = icon("play"))))
+                           )
+                         )
+                  )
+  )
 
   # Define server function
   server <- function(input, output, session) {
@@ -237,7 +101,7 @@ run_wordle <- function() {
     guess_outcome <- eventReactive({
       input$submit
       input$new_game
-      }, {
+    }, {
 
       if (values$init) {
         values$init <- FALSE
@@ -311,9 +175,9 @@ run_wordle <- function() {
 
     output$wordle_outcome <- renderPlot({
 
-        guess_outcome()
+      guess_outcome()
 
-      })
+    })
 
 
     observe({
@@ -362,4 +226,3 @@ run_wordle <- function() {
   # Create Shiny object
   shinyApp(ui = ui, server = server)
 }
-run_wordle()

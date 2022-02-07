@@ -2,10 +2,8 @@
 #'
 #' @param df tibble with wordle results, must contain x & y numeric columns,
 #'   and result, letters and attempt character columns. For details see example.
-#' @param facet logical, default: \code{FALSE};
-#'   if multiple attempts provided in the df, allows to plot them in panels;
-#'   do not use when animating.
-#'
+#' @param n_tries numeric, number of allowed guesses
+#' @param n_letters numeric, number of letters
 #' @return ggplot2 plot with visualized guesses
 #' @export
 #' @import ggplot2
