@@ -20,7 +20,7 @@
 #'
 #' learn_from_guess(test_vec, allowed_letters, scan_for)
 learn_from_guess <- function(testing_vec, allowed, scan_for) {
-
+  `%not in%` <- Negate(`%in%`)
   # tests
   stopifnot(is.list(allowed),
             is.vector(scan_for) | is.null(scan_for),
@@ -35,7 +35,7 @@ learn_from_guess <- function(testing_vec, allowed, scan_for) {
   for (i in 1:n_letters) {
     let <- names(testing_vec)[i]
 
-    if (testing_vec[i] == "no") {
+    if (testing_vec[i] == "no" & let %not in% scan_for) {
       # if the letter is not found in the word, remove it from allowed,
       # except for any exacts
       new_allowed <-
@@ -45,7 +45,8 @@ learn_from_guess <- function(testing_vec, allowed, scan_for) {
           }
           allowed_letters
         })
-    } else if (testing_vec[i] == "almost") {
+    } else if (testing_vec[i] == "almost" |
+               (testing_vec[i] == "no" & let %in% scan_for)) {
       # if it is found, but not at this spot, remove it from allowed
       # in this position
       new_allowed[[i]] <- setdiff(new_allowed[[i]], let)
